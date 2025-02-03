@@ -20,11 +20,12 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/main.css").permitAll()
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/main.css").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(login -> login
-                        //.loginPage("/login") // Custom login page (optional)
-                        .defaultSuccessUrl("/", true) // Redirect to "/" after login
+                        //.loginPage("/login") //TODO Custom login page (optional)
+                        .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
                 .build();

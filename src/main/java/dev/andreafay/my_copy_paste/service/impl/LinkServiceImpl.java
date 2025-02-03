@@ -20,7 +20,6 @@ public class LinkServiceImpl implements LinkService {
 
     @Override
     public String addLinkToUser(String email, String linkName, String linkUrl) {
-        System.out.println(email);
         Optional<User> optionalUser = userRepository.findById(email);
         if(optionalUser.isEmpty()){
             return "User not found";
@@ -39,7 +38,6 @@ public class LinkServiceImpl implements LinkService {
 
     @Override
     public List<Link> getUserLinksByEmail(String email) {
-        System.out.println(email);
         Optional<User> optionalUser = userRepository.findById(email);
         if(optionalUser.isEmpty()){
             System.out.println("User not found");
@@ -49,6 +47,15 @@ public class LinkServiceImpl implements LinkService {
         User user = optionalUser.get();
 
         return linkRepository.findByUserEmail(user.getEmail());
+    }
+
+    @Override
+    public boolean deleteLink(long id) {
+        if (linkRepository.existsById(id)) {
+            linkRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
 }
