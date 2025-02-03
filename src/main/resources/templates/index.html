@@ -1,104 +1,57 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Paste a URL</title>
+    <title>PasteURL</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script th:src="@{/script.js}"></script>
     <link th:href="@{/main.css}" rel="stylesheet" />
+    <link rel="icon" type="image/png" th:href="@{/logo.png}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto+Condensed&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
-<body class="bg-indigo-500">
-    <div class="m-60">
-        <div class="flex flex-row items-center justify-center gap-x-8">
-            <p class="text-4xl font-semibold">Hey <span th:text="${user.name}"></span>!</p>
-            <button class="border-black border-2 bg-indigo-300 rounded-lg text-lg text-center mt-1 py-1 px-3" onclick="showModal()">+</button>
-        </div>
-        <br />
-        <div class="flex flex-col items-center justify-center mt-8">
-            <div th:each="link : ${links}">
-                <div th:attr="data-url=${link.url}" onclick="copyToClipboard(this)" class="cursor-pointer text-lg bg-indigo-300 border border-black border-2 rounded-lg py-2 px-4 block text-center mb-2 min-w-52">
+<body class="bg-primary text-gray-950" style="font-family: Merriweather">
+<div class="mt-36 mx-60" >
+    <div class="flex flex-row items-center justify-center gap-x-8">
+        <p class="text-4xl font-semibold">Hey <span th:text="${user.name}"></span>!</p>
+        <button class="border-gray-950 border-2 bg-fifth rounded-lg text-lg text-center mb-1 py-1 px-3 active:bg-fourth" onclick="showModal()">
+            <i class="fa-solid fa-plus"></i>
+        </button>
+    </div>
+    <br />
+    <div class="flex flex-col items-center justify-center mt-8">
+        <div th:each="link : ${links}">
+            <div class="flex flex-row items-center justify-center gap-x-8">
+                <div th:attr="data-url=${link.url}" onclick="copyToClipboard(this)" class="cursor-pointer text-lg bg-secondary border border-gray-950 border-2 rounded-lg py-2 px-4 block text-center mb-2 min-w-52 active:bg-fourth">
                     <span th:text="${link.name}"></span>
                 </div>
+                <button th:attr="data-id=${link.id}" onclick="deleteLink(this)" class="border-gray-950 border-2 bg-fifth rounded-lg text-lg text-center mb-2 py-1 px-3 active:bg-fourth">
+                    <i class="fa-solid fa-eraser"></i>
+                </button>
             </div>
         </div>
     </div>
+</div>
 
-    <div id="modal" class="fixed inset-0 flex items-center justify-center bg-slate-800 bg-opacity-50 hidden">
-        <div class="bg-slate-300 p-6 border border-black rounded-lg shadow-lg w-96">
-            <h3 class="text-xl font-semibold mb-4">Add Link</h3>
-            <form id="add-link-form" onsubmit="submitForm(event)" class="w-full">
-                <input type="hidden" id="userEmail" th:value="${user.email}" />
-                <input type="text" id="linkName" name="name" placeholder="Link Name" required
-                       class="w-full p-2 bg-slate-200 border border-gray-600 rounded mb-2">
-                <input type="text" id="linkUrl" name="url" placeholder="Link URL" required
-                       class="w-full p-2 bg-slate-200 border border-gray-600 rounded mb-4">
-                <div class="flex justify-end gap-2">
-                    <button type="submit" class="bg-indigo-500 text-white px-4 py-2 border border-black rounded">
-                        Add Link
-                    </button>
-                    <button type="button" class="bg-gray-300 px-4 py-2 border border-black rounded" onclick="closeModal()">
-                        Cancel
-                    </button>
-                </div>
-            </form>
-        </div>
+<div id="modal" class="fixed inset-0 flex items-center justify-center bg-primary bg-opacity-75 hidden">
+    <div class="bg-third p-6 border border-gray-950 rounded-lg shadow-lg w-96">
+        <h3 class="text-xl font-semibold mb-4">Add Link</h3>
+        <form id="add-link-form" onsubmit="submitForm(event)" class="w-full">
+            <input type="hidden" id="userEmail" th:value="${user.email}" />
+            <input type="text" id="linkName" name="name" placeholder="Link Name" required class="w-full p-2 bg-secondary border border-gray-600 rounded mb-2">
+            <input type="text" id="linkUrl" name="url" placeholder="Link URL" required class="w-full p-2 bg-secondary border border-gray-600 rounded mb-4">
+            <div class="flex justify-end gap-2">
+                <button type="submit" class="bg-secondary text-gray-950 px-4 py-2 border border-gray-950 rounded active:bg-fourth">Save</button>
+                <button type="button" class="bg-fifth px-4 py-2 border border-gray-950 rounded active:bg-fourth" onclick="closeModal()">Cancel</button>
+            </div>
+        </form>
     </div>
+</div>
+
+<div id="notification" class="fixed top-5 right-5 bg-third text-gray-950 px-4 py-2 rounded-lg shadow-lg hidden border border-gray-950"></div>
+
 </body>
-<script>
-    function showModal() {
-        document.getElementById("modal").classList.remove("hidden");
-    }
 
-    function closeModal() {
-        document.getElementById("modal").classList.add("hidden");
-    }
-
-    function copyToClipboard(linkElement) {
-        const url = linkElement.getAttribute('data-url');
-
-        if (!url) {
-            alert("Error: No URL found!");
-            return;
-        }
-
-        navigator.clipboard.writeText(url)
-            .then(() => alert("Link copied to clipboard: " + url))
-            .catch(err => console.error("Failed to copy:", err));
-    }
-
-    function submitForm(event) {
-        event.preventDefault();
-
-        const userEmail = document.getElementById("userEmail").value;
-        const linkName = document.getElementById("linkName").value;
-        const linkUrl = document.getElementById("linkUrl").value;
-
-        if (!userEmail || !linkName || !linkUrl) {
-            alert("Please fill in all fields!");
-            return;
-        }
-
-        fetch("/v1/links/add", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                userEmail: userEmail,
-                linkName: linkName,
-                linkUrl: linkUrl
-            })
-        })
-        .then(response => response.text())
-        .then(data => {
-            alert("Link saved!");
-            closeModal();
-            location.reload();
-        })
-        .catch(error => {
-            console.error("Error adding link:", error);
-            alert("Failed to add link!");
-        });
-    }
-
-</script>
 </html>

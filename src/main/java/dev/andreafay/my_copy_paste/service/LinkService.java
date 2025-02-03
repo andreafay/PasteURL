@@ -7,4 +7,5 @@ import java.util.List;
 public interface LinkService {
     String addLinkToUser(String email, String linkName, String linkUrl);
     List<Link> getUserLinksByEmail(String email);
+    boolean deleteLink(long id);
 }

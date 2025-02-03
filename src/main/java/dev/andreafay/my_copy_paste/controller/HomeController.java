@@ -23,7 +23,7 @@ public class HomeController {
     @GetMapping("/")
     public String homepage(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName(); // Get logged-in user's email
+        String email = authentication.getName();
 
         Optional<User> userOptional = userService.getUserByEmail(email);
         userOptional.ifPresent(user -> model.addAttribute("user", user));
@@ -35,5 +35,4 @@ public class HomeController {
 
         return "index";
     }
-
 }

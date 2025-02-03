@@ -5,6 +5,8 @@ import dev.andreafay.my_copy_paste.dto.LinkByEmailRequestDTO;
 import dev.andreafay.my_copy_paste.model.Link;
 import dev.andreafay.my_copy_paste.service.LinkService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,4 +32,13 @@ public class LinkController {
         return linkService.getUserLinksByEmail(linkByEmailRequestDTO.getUserEmail());
     }
 
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteLink(@RequestParam Long id){
+        boolean deleted = linkService.deleteLink(id);
+        if (deleted) {
+            return ResponseEntity.ok("Link deleted!");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Link not found!");
+        }
+    }
 }
