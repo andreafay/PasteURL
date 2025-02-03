@@ -24,7 +24,7 @@ public class SecurityConfig {
                         .requestMatchers("/main.css").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(login -> login
-                        //.loginPage("/login") //TODO Custom login page (optional)
+                        .loginPage("/login")
                         .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
