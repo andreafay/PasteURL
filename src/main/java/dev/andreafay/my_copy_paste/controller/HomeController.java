@@ -22,13 +22,13 @@ public class HomeController {
     @Autowired
     UserService userService;
 
-    @Value("$EMAIL_USER1")
+    @Value("${EMAIL_USER1}")
     private String email1;
-    @Value("$PASSWORD_USER1")
+    @Value("${PASSWORD_USER1}")
     private String password1;
-    @Value("$EMAIL_USER2")
+    @Value("${EMAIL_USER2}")
     private String email2;
-    @Value("$PASSWORD_USER2")
+    @Value("${PASSWORD_USER2}")
     private String password2;
 
     @GetMapping("/")
