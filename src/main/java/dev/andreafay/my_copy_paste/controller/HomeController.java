@@ -21,14 +21,22 @@ public class HomeController {
     @Autowired
     UserService userService;
     @GetMapping("/")
-    public String homepage(Model model){
+    public String homepage(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
-        Optional<User> userOptional = userService.getUserByEmail(email);
-        userOptional.ifPresent(user -> model.addAttribute("user", user));
+        if (email == null || email.equals("anonymousUser")) {
+            return "login";
+        }
 
-        User user = userOptional.orElseThrow();
+        Optional<User> userOptional = userService.getUserByEmail(email);
+
+        if (userOptional.isEmpty()) {
+            return "login";
+        }
+
+        User user = userOptional.get();
+        model.addAttribute("user", user);
 
         List<Link> links = linkService.getUserLinksByEmail(user.getEmail());
         model.addAttribute("links", links);
