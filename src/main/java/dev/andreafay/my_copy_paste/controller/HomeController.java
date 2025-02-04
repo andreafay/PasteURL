@@ -58,6 +58,8 @@ public class HomeController {
 
     @GetMapping("/login")
     public String login(){
+        System.out.println("THIS IS FOR TESTING ONLY: " + email1 + " " + password1);
+        System.out.println("THIS IS FOR TESTING ONLY: " + email2 + " " + password2);
         userService.initRootUsers(email1, password1, email2, password2);
         return "login";
     }
