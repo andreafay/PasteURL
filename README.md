@@ -1,2 +1,2 @@
-# my-copy-paste
-CP Helper Java Spring Version + Tailwind
+# PasteURL
+Link copy paste helper (spring + tw)
