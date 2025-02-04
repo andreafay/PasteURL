@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: my-copy-paste
+    envVars:
+      - key: DATABASE_PATH
+        value: /var/data/database.db
+    disk:
+      name: database-storage
+      mountPath: /var/data
+      sizeGB: 1
