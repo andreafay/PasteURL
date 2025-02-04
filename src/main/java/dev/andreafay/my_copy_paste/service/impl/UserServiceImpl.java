@@ -33,4 +33,14 @@ public class UserServiceImpl implements UserService {
     public Optional<User> getUserByEmail(String email) {
         return userRepository.findById(email);
     }
+
+    @Override
+    public void initRootUsers(String email1, String password1, String email2, String password2) {
+        if(getUserByEmail(email1).isEmpty()){
+            saveUser(email1, "Andre", password1);
+        }
+        if(getUserByEmail(email2).isEmpty()){
+            saveUser(email2, "Liisu", password2);
+        }
+    }
 }
