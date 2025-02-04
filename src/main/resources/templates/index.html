@@ -3,6 +3,7 @@
 <head>
     <title>PasteURL</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.tailwindcss.com"></script>
     <script th:src="@{/script.js}"></script>
     <link th:href="@{/main.css}" rel="stylesheet"/>
@@ -23,15 +24,15 @@
         </button>
     </div>
     <br/>
-    <div class="flex flex-col items-center justify-center mt-16 md:mt-8">
+    <div class="flex flex-col items-center justify-center mt-16 md:mt-8 min-w-full">
         <div th:each="link : ${links}">
             <div class="flex flex-row items-center justify-center gap-x-8">
                 <div th:attr="data-url=${link.url}" onclick="copyToClipboard(this)"
-                     class="cursor-pointer text-2xl md:text-lg bg-secondary border border-gray-950 border-2 rounded-lg py-3 px-6 md:py-2 md:px-4 block text-center mb-4 md:mb-2 min-w-72 md:min-w-52 active:bg-fourth">
+                     class="cursor-pointer text-2xl md:text-lg bg-secondary border border-gray-950 border-2 rounded-lg py-3 px-6 md:py-2 md:px-4 block text-center mb-8 md:mb-2 min-w-64 active:bg-fourth">
                     <span th:text="${link.name}"></span>
                 </div>
                 <button th:attr="data-id=${link.id}" onclick="deleteLink(this)"
-                        class="border-gray-950 border-2 bg-fifth rounded-lg text-2xl md:text-lg text-center mb-4 md:mb-2 py-2 px-4 md:py-1 md:px-2 active:bg-fourth">
+                        class="border-gray-950 border-2 bg-fifth rounded-lg text-2xl md:text-lg text-center mb-8 md:mb-2 py-2 px-4 md:py-1 md:px-2 active:bg-fourth">
                     <i class="fa-solid fa-eraser"></i>
                 </button>
             </div>
