@@ -41,4 +41,14 @@ public class LinkController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Link not found!");
         }
     }
+
+    @PatchMapping("/edit")
+    public ResponseEntity<String> editLink(@RequestParam Long id, String name, String url){
+        boolean edited = linkService.editLink(id, name, url);
+        if (edited) {
+            return ResponseEntity.ok("Link edited!");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Link not found!");
+        }
+    }
 }

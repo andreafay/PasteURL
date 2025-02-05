@@ -58,4 +58,21 @@ public class LinkServiceImpl implements LinkService {
         return false;
     }
 
+    @Override
+    public boolean editLink(long id, String name, String url) {
+        Optional<Link> optionalLink = linkRepository.findById(id);
+        if (optionalLink.isPresent()) {
+            Link link = optionalLink.get();
+            if(name != null && !name.isEmpty()){
+                link.setName(name);
+            }
+            if(url != null && !url.isEmpty()){
+                link.setUrl(url);
+            }
+            linkRepository.save(link);
+            return true;
+        }
+        return false;
+    }
+
 }

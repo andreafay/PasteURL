@@ -8,4 +8,5 @@ public interface LinkService {
     String addLinkToUser(String email, String linkName, String linkUrl);
     List<Link> getUserLinksByEmail(String email);
     boolean deleteLink(long id);
+    boolean editLink(long id, String name, String url);
 }
